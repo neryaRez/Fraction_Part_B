@@ -31,7 +31,7 @@ namespace ariel{
     }
 
     void Fraction::init_and_reduce(int num, int denom){
-        if(denom == 0) throw runtime_error("divide by zero is illegal\n");
+        if(denom == 0) throw invalid_argument("divide by zero is illegal");
 
         else if(denom < 0){
             numerator = num * -1;
@@ -198,14 +198,14 @@ namespace ariel{
 
     istream& operator>>(istream& input_s, Fraction& frac) {
     
-    input_s >> frac.numerator >> frac.denominator;
-    if (frac.denominator == 0) {
+    int num, denom;
+    if (!(input_s >> num >> denom)) throw runtime_error("few arguments has been provided\n");
+    if (denom == 0) {
         throw runtime_error("divide by zero is illegal\n");
     }
 
-    int gc = frac.gcd(frac.numerator, frac.denominator);
-    frac.numerator /= gc;
-    frac.denominator /= gc;
+    frac.init_and_reduce(num, denom);
+    
     return input_s;
 
     }
