@@ -74,6 +74,10 @@ namespace ariel{
     return dig_num;
     }
 
+    //Aritmetic Operators  ///
+
+    //Operators - Operator + ///
+
     Fraction Fraction::operator+(const Fraction& other) const{
 
     int lcm = (this->denominator * other.denominator)/ gcd(this-> denominator, other.denominator);  
