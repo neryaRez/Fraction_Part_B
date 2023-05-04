@@ -118,6 +118,10 @@ namespace ariel{
     if( this->numerator > 0 && other.numerator < int_min + this->numerator)
     {
         throw overflow_error("over flow\n");
+    }
+    else if(this->numerator == int_min && other.numerator > 0)
+    {
+        throw overflow_error("over flow\n");
     }       
 
     int lcm = (this->denominator * other.denominator)/ gcd(this-> denominator, other.denominator);  
