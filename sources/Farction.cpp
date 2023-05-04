@@ -17,7 +17,6 @@ namespace ariel{
     if (decimal > 3) fl1 = floor(fl1*1000)/1000;
 
     float new_numerator = fl1 * pow(10, decimal);
-
     int num = (int) new_numerator;
     int denom = pow(10, decimal);
 
@@ -79,9 +78,22 @@ namespace ariel{
     //Operators - Operator + ///
 
     Fraction Fraction::operator+(const Fraction& other) const{
+     
+    if(other.numerator > int_max - this->numerator && this->numerator > 0)
+    {
+        throw overflow_error("over flow\n");  
+    }
+    else if(other.numerator < int_max - this->numerator && this->numerator < 0)
+    {
+        throw overflow_error("over flow\n");
+    }
+       
+    int lcm = (this->denominator * other.denominator)/ gcd(this-> denominator, other.denominator);
 
-    int lcm = (this->denominator * other.denominator)/ gcd(this-> denominator, other.denominator);  
-    int new_numerator = this->numerator *(lcm/this->denominator) + other.numerator*(lcm/other.denominator);
+    int numerate_a = this->numerator *(lcm/this->denominator);
+    int numerate_b = other.numerator*(lcm/other.denominator);
+    int new_numerator = numerate_a + numerate_b;
+
     return Fraction(new_numerator, lcm);
 
     }
@@ -103,8 +115,15 @@ namespace ariel{
 
     Fraction Fraction::operator-(const Fraction& other) const{
 
+    if( this->numerator > 0 && other.numerator < int_min + this->numerator)
+    {
+        throw overflow_error("over flow\n");
+    }       
+
     int lcm = (this->denominator * other.denominator)/ gcd(this-> denominator, other.denominator);  
-    int new_numerator = this->numerator *(lcm/this->denominator) - other.numerator*(lcm/other.denominator);
+    int numerate_a = this->numerator *(lcm/this->denominator);
+    int numerate_b = other.numerator*(lcm/other.denominator);
+    int new_numerator =  numerate_a - numerate_b;
     return Fraction(new_numerator, lcm);
 
     }
@@ -125,7 +144,14 @@ namespace ariel{
     //Operators - Operator * ///
     Fraction Fraction::operator*(const Fraction& other) const{
 
-       return Fraction(this->numerator*other.numerator, this->denominator*other.denominator);
+        if( this->numerator == int_max && (other.numerator != 1 && other.numerator !=-1)){
+            throw overflow_error("over flow\n");
+        }
+        else if(this->denominator == int_max && (other.denominator!= 1 && other.denominator !=-1)){
+            throw overflow_error("over flow\n");
+        }
+
+        return Fraction(this->numerator*other.numerator, this->denominator*other.denominator);
 
     }
 
@@ -175,7 +201,7 @@ namespace ariel{
 
     Fraction& Fraction::operator++(){
 
-        numerator += denominator;
+        *this = *this + 1;
         return *this;
     }
 
@@ -187,7 +213,7 @@ namespace ariel{
 
      Fraction& Fraction::operator--(){
 
-        numerator -= denominator;
+        *this = *this - 1;
         return *this;
     }
 
@@ -207,7 +233,6 @@ namespace ariel{
     if (denom == 0) {
         throw runtime_error("divide by zero is illegal\n");
     }
-
     frac.init_and_reduce(num, denom);
     
     return input_s;

@@ -20,7 +20,6 @@ namespace ariel{
 
         int gcd(int num, int denom) const;
         int digits_after_point(float fl1) const;
-        // Fraction convert(float fl1) const;
         void init_and_reduce(int num, int denom);
 
     public:
@@ -36,7 +35,7 @@ namespace ariel{
        
         friend Fraction operator+(float fl1, const Fraction& other);
 
-        ///Operator -///
+        ///Operator - ///
         
         Fraction operator-(const Fraction& other) const;
 
@@ -124,6 +123,7 @@ namespace ariel{
 
         
     };
-    
+    #define int_max  numeric_limits<int>::max()
+    #define int_min  numeric_limits<int>::min()    
 
 }

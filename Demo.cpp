@@ -33,5 +33,12 @@ int main() {
     if (a > 1.1) cout << " a is bigger than 1.1" << endl;
     else cout << " a is smaller than 1.1" << endl;
 
+    Fraction f3(int_max, int_max);
+    Fraction f4(int_max - 100, int_max);
+
+    cout << f3 << endl;
+    cout << f4 / f3 <<endl;
+
+
 
 }
