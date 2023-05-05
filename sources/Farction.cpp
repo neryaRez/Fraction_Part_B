@@ -78,16 +78,23 @@ namespace ariel{
     //Operators - Operator + ///
 
     Fraction Fraction::operator+(const Fraction& other) const{
+
+    long long num_this  = static_cast<long long>(this->numerator);
+    long long num_other = static_cast<long long>(other.numerator);    
      
-    if(other.numerator > int_max - this->numerator && this->numerator > 0)
+    if(num_this + num_other > int_max || num_this + num_other < int_min)
     {
         throw overflow_error("over flow\n");  
     }
-    else if(other.numerator < int_max - this->numerator && this->numerator < 0)
+
+    long long den_this  = static_cast<long long>(this->denominator);
+    long long den_other = static_cast<long long>(other.denominator);
+
+    if(den_this * den_other > int_max || den_this * den_other < int_min)
     {
-        throw overflow_error("over flow\n");
+        throw overflow_error("over flow\n"); 
     }
-       
+      
     int lcm = (this->denominator * other.denominator)/ gcd(this-> denominator, other.denominator);
 
     int numerate_a = this->numerator *(lcm/this->denominator);
@@ -115,16 +122,24 @@ namespace ariel{
 
     Fraction Fraction::operator-(const Fraction& other) const{
 
-    if( this->numerator > 0 && other.numerator < int_min + this->numerator)
+    long long num_this  = static_cast<long long>(this->numerator);
+    long long num_other = static_cast<long long>(other.numerator);    
+     
+    if(num_this - num_other > int_max || num_this - num_other < int_min)
     {
-        throw overflow_error("over flow\n");
+        throw overflow_error("over flow\n");  
     }
-    else if(this->numerator == int_min && other.numerator > 0)
-    {
-        throw overflow_error("over flow\n");
-    }       
 
-    int lcm = (this->denominator * other.denominator)/ gcd(this-> denominator, other.denominator);  
+    long long den_this = static_cast<long long>(this->denominator);
+    long long den_other = static_cast<long long>(other.denominator);
+
+    if(den_this * den_other > int_max || den_this * den_other < int_min)
+    {
+        throw overflow_error("over flow\n"); 
+    }
+
+    int lcm = (this->denominator * other.denominator)/ gcd(this-> denominator, other.denominator); 
+
     int numerate_a = this->numerator *(lcm/this->denominator);
     int numerate_b = other.numerator*(lcm/other.denominator);
     int new_numerator =  numerate_a - numerate_b;
@@ -148,11 +163,21 @@ namespace ariel{
     //Operators - Operator * ///
     Fraction Fraction::operator*(const Fraction& other) const{
 
-        if( this->numerator == int_max && (other.numerator != 1 && other.numerator !=-1)){
-            throw overflow_error("over flow\n");
-        }
-        else if(this->denominator == int_max && (other.denominator!= 1 && other.denominator !=-1)){
-            throw overflow_error("over flow\n");
+        long long num_this, den_this, num_other, den_other;
+
+        num_this =  static_cast<long long>(this->numerator);
+        den_this =  static_cast<long long>(this->denominator);
+        num_other = static_cast<long long>(other.numerator);
+        den_other = static_cast<long long>(other.denominator);
+
+        if(den_this * den_other > int_max || den_this * den_other < int_min)
+        {
+        throw overflow_error("over flow\n"); 
+        } 
+
+        else if(num_this * num_other > int_max || num_this * num_other < int_min)
+        {
+        throw overflow_error("over flow\n"); 
         }
 
         return Fraction(this->numerator*other.numerator, this->denominator*other.denominator);
